@@ -2,6 +2,7 @@
 // import needed components
 // set up empty state
 // add placeholder layout
+
 import React, { useState } from "react";
 import Navbar from "./components/navBar";
 import DiaryEntryList from "./components/DiaryEntryList";
@@ -23,45 +24,23 @@ const App = () => {
   //      └── DiaryEntryIndividual: is the array of objects: date, text, place, mood, usw.
 
   // temporalllll: hardcoded entry
-
-  /*  OLD version for hardcode entries.
- state = {
-    entries: [
-      {
-        title: "My first entry",
-        body: "this is the journal entry and text",
-      },
-      {
-        title: "My second entry",
-        body: "this is the journal entry and text",
-      },
-    ],
-  }; 
-  */
-
   const [entries, setEntries] = useState([
     {
       title: "My first entry",
       body: "this is the journal entry and text",
-      date: "string",
+      date: "date string",
     },
     {
       title: "My second entry",
       body: "this is the journal entry and text",
-      date: "string",
+      date: "date string",
+    },
+    {
+      title: "My third entry",
+      body: "this is the journal entry and text",
+      date: "date string",
     },
   ]);
-
-  /* OLD version of remove entries.
-  removeEntry = (index) => {
-    const { entries } = this.state;
-
-    this.setState({
-      entries: entries.filter((entry, i) => {
-        return i != index;
-      }),
-    });
-  }; */
 
   const removeEntry = (index) => {
     setEntries((prevEntries) => prevEntries.filter((_, i) => i !== index));
