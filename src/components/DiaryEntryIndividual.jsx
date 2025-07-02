@@ -13,7 +13,12 @@ const EntryBody = ({ entryData, index, removeEntry }) => {
     <div>
       <small>{entryData.date}</small>
       <p>{entryData.body}</p>
-      <button onClick={() => removeEntry(index)}>Delete</button>
+      <button
+        className="btn btn-neutral btn-dash"
+        onClick={() => removeEntry(index)}
+      >
+        Delete
+      </button>
     </div>
   );
 };
