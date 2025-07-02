@@ -9,6 +9,7 @@ import DiaryEntryList from "./components/DiaryEntryList";
 import DiaryEntryForm from "./components/DiaryEntryForm";
 import FilterBar from "./components/FilterBar";
 import DiaryEntry from "./components/DiaryEntryIndividual";
+import Form from "./components/DiaryEntryForm";
 
 const App = () => {
   //Navbar.jsx
@@ -52,10 +53,10 @@ const App = () => {
       <Navbar />
       <main className="container mx-auto p-4">
         <FilterBar />
-        <DiaryEntryForm />
         {/*         <DiaryEntryList entryData={entries} removeEntry={this.removeEntry} />
          */}
         <DiaryEntryList entryData={entries} removeEntry={removeEntry} />
+        <Form />
 
         <br />
         <br />
