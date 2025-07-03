@@ -1,7 +1,7 @@
 const FilterBar = () => {
   return (
     <div>
-      <button className="btn btn-error">Xlarge</button>
+      <h1>FilterBar</h1>
     </div>
   );
 };

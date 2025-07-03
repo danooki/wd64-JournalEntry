@@ -1,9 +1,12 @@
-const Navbar = () => {
+const Navbar = ({ onAddClick }) => {
   return (
     <div className="navbar bg-amber-500 shadow-sm">
       <div className="flex-1">
         <a className="btn btn-ghost text-xl">Daily Journal</a>
-        <button className="btn btn-primary">Add new entry</button>
+        {/* Trigger modal from App.jsx via prop */}
+        <button className="btn btn-primary" onClick={onAddClick}>
+          Add New Entry
+        </button>
       </div>
 
       <div className="flex gap-3">
@@ -20,10 +23,7 @@ const Navbar = () => {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
-              />
+              <img src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg" />
             </div>
           </div>
           <ul

@@ -1,12 +1,37 @@
-# React + Vite
+# Daily Journal Structure
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Navbar.jsx.
+├── searchQuery.
+├── filteredEntries: entries shown after applying filters -- loaded by useEffect--.
+└── currentMoodFilter, usw usw.
+AddEntryModal.
+└── DiaryEntryForm: create a state like showEntryForm. If yes, opens Modal.
+App itself.
+└── DiaryEntryList: array of entries filtered by date (stored in localStorage - useState).
+└── DiaryEntryIndividual: is the array of objects: date, text, place, mood, usw.
 
-Currently, two official plugins are available:
+## Log changes
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Jun 30.
 
-## Expanding the ESLint configuration
+- Develop branch
+- basic layout + NavBar.jsx
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Jul 01.
+
+- App.jsx created test entry + other components
+- defined DiaryEntry type of data.
+- Added deleted function
+- Followed youtube tutorial
+
+### Jul 02.
+
+- Continue youtube tutorial
+- Added entry button
+- added entry forms
+
+### Jul 03.
+
+- Can show entries.
+- No local storage, no persist.
+- Entries are lost on reload.
