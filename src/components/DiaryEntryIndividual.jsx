@@ -1,8 +1,10 @@
+import React from "react";
+
 const EntryHeader = ({ title }) => {
   //received title as prop and renders it inside an h3.
   return (
     <div>
-      <h3>{title}</h3>
+      <h1>{title}</h1>
     </div>
   );
 };

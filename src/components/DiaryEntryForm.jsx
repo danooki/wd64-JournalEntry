@@ -1,60 +1,66 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
 // this component is a form for creating new diary entries
 // it manages the state of the form inputs and handles submission
-class DiaryEntryForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: "",
-      body: "",
-    };
 
-    this.state = {
-      title: "",
-      body: "",
-    };
-  }
-
-  // initial state for the form inputs
-  handleChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
+const DiaryEntryForm = ({ handleSubmit }) => {
+  const initialState = {
+    title: "",
+    body: "",
   };
 
-  // handleChange updates the state when the input values change
-  render() {
-    const { title, body } = this.state;
+  // Set up state using useState
+  const [formData, setFormData] = useState(initialState);
 
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>Title</label>
-        <input
-          placeholder="Enter Title"
-          className="textarea textarea-accent"
-          type="text"
-          name="title"
-          id="title"
-          value={title}
-          onChange={this.handleChange}
-        />
+  // Handles changes to input fields and updates form state
+  const handleChange = (event) => {
+    const { name, value } = event.target;
 
-        <label>Entry</label>
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-        <textarea
-          placeholder="What's on your mind?"
-          className="textarea textarea-secondary"
-          name="body"
-          id="body"
-          value={body}
-          onChange={this.handleChange}
-        />
-        <button type="submit" className="btn btn-wide btn-soft btn-accent">
-          Add This Entry
-        </button>
-      </form>
-    );
-  }
-}
+  const submitForm = (e) => {
+    e.preventDefault(); // added Thursday: prevent page reload
+    handleSubmit(formData); // pass data to parent
+    setFormData(initialState); // reset form.
+  };
+
+  // state for the form inputs
+  return (
+    <form onSubmit={submitForm}>
+      <label>Title</label>
+      <input
+        placeholder="Enter Title"
+        className="textarea textarea-accent"
+        type="text"
+        name="title"
+        id="title"
+        value={formData.title}
+        onChange={handleChange}
+      />
+
+      <label>Entry</label>
+
+      <textarea
+        placeholder="What's on your mind?"
+        className="textarea textarea-secondary"
+        name="body"
+        id="body"
+        value={formData.body}
+        onChange={handleChange}
+      />
+      <button
+        type="submit"
+        className="btn btn-wide btn-soft btn-accent"
+        onClick={submitForm}
+      >
+        Add This Entry
+      </button>
+    </form>
+  );
+};
 
 export default DiaryEntryForm;
