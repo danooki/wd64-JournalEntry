@@ -9,20 +9,9 @@ import DiaryEntryList from "./components/DiaryEntryList";
 import FilterBar from "./components/FilterBar";
 import DiaryEntry from "./components/DiaryEntryIndividual";
 import Form from "./components/DiaryEntryForm";
+import AddEntryModal from "./components/AddEntryModal";
 
 const App = () => {
-  //Navbar.jsx
-  // ├── searchQuery
-  // ├── filteredEntries: entries shown after applying filters -- loaded by useEffect--
-  // └── currentMoodFilter, usw usw
-
-  // AddEntryModal
-  // └── DiaryEntryForm: create a state like showEntryForm. If yes, opens Modal.
-
-  // App itself
-  // └── DiaryEntryList: array of entries filtered by date (stored in localStorage - useState)
-  //      └── DiaryEntryIndividual: is the array of objects: date, text, place, mood, usw.
-
   // temporalllll: hardcoded entry
   const [entries, setEntries] = useState([
     {
@@ -32,6 +21,8 @@ const App = () => {
     },
   ]);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const removeEntry = (index) => {
     setEntries((prevEntries) => prevEntries.filter((_, i) => i !== index));
   };
@@ -39,17 +30,23 @@ const App = () => {
   // handleSubmit function to add a new entry
   // This function will be passed down to the DiaryEntryForm component
   const handleSubmit = (newEntry) => {
-    setEntries((prevEntries) => [...prevEntries, newEntry]);
+    setEntries((prev) => [...prev, newEntry]);
+    setIsModalOpen(false); // close modal after submission
   };
 
   return (
     <>
       {/* Navbar at the top of the page */}
-      <Navbar />
+      <Navbar onAddClick={() => setIsModalOpen(true)} />
       <main className="container mx-auto p-4">
         <FilterBar />
         <DiaryEntryList entryData={entries} removeEntry={removeEntry} />
-        <Form handleSubmit={handleSubmit} />
+        {isModalOpen && (
+          <AddEntryModal
+            onClose={() => setIsModalOpen(false)}
+            handleSubmit={handleSubmit}
+          />
+        )}{" "}
       </main>
     </>
   );

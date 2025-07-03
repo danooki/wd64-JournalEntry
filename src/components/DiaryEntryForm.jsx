@@ -22,6 +22,7 @@ const DiaryEntryForm = ({ handleSubmit }) => {
     }));
   };
 
+  // after each submission: prevents reload, pass data & resets to initialState.
   const submitForm = (e) => {
     e.preventDefault(); // added Thursday: prevent page reload
     handleSubmit(formData); // pass data to parent
