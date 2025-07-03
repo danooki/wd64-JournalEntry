@@ -6,7 +6,6 @@
 import React, { useState } from "react";
 import Navbar from "./components/navBar";
 import DiaryEntryList from "./components/DiaryEntryList";
-import DiaryEntryForm from "./components/DiaryEntryForm";
 import FilterBar from "./components/FilterBar";
 import DiaryEntry from "./components/DiaryEntryIndividual";
 import Form from "./components/DiaryEntryForm";
@@ -27,17 +26,7 @@ const App = () => {
   // temporalllll: hardcoded entry
   const [entries, setEntries] = useState([
     {
-      title: "My first entry",
-      body: "this is the journal entry and text",
-      date: "date string",
-    },
-    {
-      title: "My second entry",
-      body: "this is the journal entry and text",
-      date: "date string",
-    },
-    {
-      title: "My third entry",
+      title: "My first entry test",
       body: "this is the journal entry and text",
       date: "date string",
     },
@@ -47,28 +36,20 @@ const App = () => {
     setEntries((prevEntries) => prevEntries.filter((_, i) => i !== index));
   };
 
+  // handleSubmit function to add a new entry
+  // This function will be passed down to the DiaryEntryForm component
+  const handleSubmit = (newEntry) => {
+    setEntries((prevEntries) => [...prevEntries, newEntry]);
+  };
+
   return (
     <>
       {/* Navbar at the top of the page */}
       <Navbar />
       <main className="container mx-auto p-4">
         <FilterBar />
-        {/*         <DiaryEntryList entryData={entries} removeEntry={this.removeEntry} />
-         */}
         <DiaryEntryList entryData={entries} removeEntry={removeEntry} />
-        <Form />
-
-        <br />
-        <br />
-        <br />
-        <p>TEST ENTRY</p>
-        <DiaryEntry
-          entryData={{
-            title: "Test Title",
-            body: "Today was great!",
-            date: "2025-06-20",
-          }}
-        />
+        <Form handleSubmit={handleSubmit} />
       </main>
     </>
   );
