@@ -3,25 +3,26 @@
 // set up empty state
 // add placeholder layout
 
-import React, { useState } from "react";
-import Navbar from "./components/navBar";
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
 import DiaryEntryList from "./components/DiaryEntryList";
 import FilterBar from "./components/FilterBar";
-import DiaryEntry from "./components/DiaryEntryIndividual";
-import Form from "./components/DiaryEntryForm";
 import AddEntryModal from "./components/AddEntryModal";
 
 const App = () => {
-  // temporalllll: hardcoded entry
-  const [entries, setEntries] = useState([
-    {
-      title: "My first entry test",
-      body: "this is the journal entry and text",
-      date: "date string",
-    },
-  ]);
+  // useState to manage diary entries
+  const [entries, setEntries] = useState(() => {
+    const savedEntries = localStorage.getItem("diaryEntries");
+    return savedEntries ? JSON.parse(savedEntries) : [];
+  });
 
+  // Modal starts off closed
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // useEffect to save entries to localStorage whenever entries change
+  useEffect(() => {
+    localStorage.setItem("diaryEntries", JSON.stringify(entries));
+  }, [entries]);
 
   const removeEntry = (index) => {
     setEntries((prevEntries) => prevEntries.filter((_, i) => i !== index));
@@ -31,9 +32,10 @@ const App = () => {
   // This function will be passed down to the DiaryEntryForm component
   const handleSubmit = (newEntry) => {
     setEntries((prev) => [...prev, newEntry]);
-    setIsModalOpen(false); // close modal after submission
+    setIsModalOpen(false);
   };
 
+  // Main component handles NavBar + rendering DiaryEntryList and AddEntryModal
   return (
     <>
       {/* Navbar at the top of the page */}
@@ -46,7 +48,7 @@ const App = () => {
             onClose={() => setIsModalOpen(false)}
             handleSubmit={handleSubmit}
           />
-        )}{" "}
+        )}
       </main>
     </>
   );
