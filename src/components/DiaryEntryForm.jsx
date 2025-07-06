@@ -25,22 +25,47 @@ const DiaryEntryForm = ({ handleSubmit }) => {
     }));
   };
 
+  //
+  const [formErrors, setFormErrors] = useState({});
+
   // after each submission: prevents reload, pass data & resets to initialState.
   const submitForm = (e) => {
     e.preventDefault(); // added Thursday: prevent page reload
     handleSubmit(formData); // pass data to parent
     setFormData(initialState); // reset form.
+
+    // required fields
+    const requiredFields = ["title", "date", "body"];
+    const errors = {};
+
+    // check if required fields are filled
+    // if not, add to errors object
+    requiredFields.forEach((field) => {
+      if (!formData[field]) {
+        errors[field] = true;
+      }
+    });
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return; // don't submit
+    }
   };
+
+  // Check if form is valid for the button to be enabled.
+  const isFormValid = formData.title && formData.date && formData.body;
 
   // state for the form inputs
   return (
     <form onSubmit={submitForm} className="flex flex-col gap-y-4">
-      <label htmlFor="title" className="mb-1 font-semibold">
+      <label htmlFor="title" className="mb-1 font-semibold ">
         Title
       </label>
       <input
         placeholder="Enter Title"
-        className="input input-accent"
+        className={`input ${
+          formErrors.title ? "input-error" : "input-primary"
+        } w-full`}
         type="text"
         name="title"
         id="title"
@@ -57,7 +82,9 @@ const DiaryEntryForm = ({ handleSubmit }) => {
           </label>
           <input
             type="date"
-            className="input input-bordered"
+            className={`input ${
+              formErrors.title ? "input-error" : "input-primary"
+            }`}
             name="date"
             required
             value={formData.date}
@@ -70,7 +97,7 @@ const DiaryEntryForm = ({ handleSubmit }) => {
             Mood
           </label>
           <select
-            className="select select-bordered"
+            className="select select-neutral"
             name="mood"
             value={formData.mood}
             onChange={handleChange}
@@ -93,7 +120,9 @@ const DiaryEntryForm = ({ handleSubmit }) => {
         <input
           type="text"
           placeholder="https://example.com/image.jpg"
-          className="input input-bordered"
+          className={`input ${
+            formErrors.title ? "input-error" : "input-primary"
+          } w-full`}
           name="imageUrl"
           value={formData.imageUrl}
           onChange={handleChange}
@@ -103,7 +132,9 @@ const DiaryEntryForm = ({ handleSubmit }) => {
       <label>Entry</label>
       <textarea
         placeholder="What's on your mind?"
-        className="textarea textarea-secondary"
+        className={`textarea ${
+          formErrors.title ? "textarea-error" : "textarea-primary"
+        } w-full`}
         name="body"
         id="body"
         required
@@ -111,8 +142,14 @@ const DiaryEntryForm = ({ handleSubmit }) => {
         onChange={handleChange}
       />
 
-      <button type="submit" className="btn w-full btn-soft btn-accent mt-4">
-        Add This Entry
+      <button
+        type="submit"
+        className={`btn w-full mt-4 ${
+          !isFormValid ? "btn-disabled bg-gray-300 text-gray-900" : "btn-accent"
+        }`}
+        disabled={!isFormValid}
+      >
+        {isFormValid ? "Add This Entry" : "Fill Required Fields"}
       </button>
     </form>
   );

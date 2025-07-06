@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import DiaryEntryList from "./components/DiaryEntryList";
 import FilterBar from "./components/FilterBar";
 import AddEntryModal from "./components/AddEntryModal";
+import { canSubmitNewEntry, getRemainingCooldown } from "./utils/entryCooldown";
 
 const App = () => {
   // useState to manage diary entries
@@ -33,13 +34,26 @@ const App = () => {
   const handleSubmit = (newEntry) => {
     setEntries((prev) => [...prev, newEntry]);
     setIsModalOpen(false);
+    localStorage.setItem("lastEntryTime", Date.now()); // store submission time
+  };
+
+  // handleAddClick function to open the modal if cooldown allows
+  const handleAddClick = () => {
+    if (canSubmitNewEntry()) {
+      setIsModalOpen(true);
+    } else {
+      const hoursLeft = getRemainingCooldown().toFixed(1);
+      alert(
+        `⏳ You must wait ${hoursLeft} more hours before adding a new entry.`
+      );
+    }
   };
 
   // Main component handles NavBar + rendering DiaryEntryList and AddEntryModal
   return (
     <>
       {/* Navbar at the top of the page */}
-      <Navbar onAddClick={() => setIsModalOpen(true)} />
+      <Navbar onAddClick={handleAddClick} />
       <main className="container mx-auto p-4">
         <FilterBar />
         <DiaryEntryList entryData={entries} removeEntry={removeEntry} />
