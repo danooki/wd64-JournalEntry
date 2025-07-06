@@ -56,11 +56,11 @@ App itself.
 - branch dataPersist03
   - rendering images inside of logs
 
-## Pending
-
-- Fixed to show entries correctly (with image) in the EntryList
+### Jul 06.
 
 - FR009 One-Entry-Per-Day Check If an entry already exists for the selected day, prompt the user to come back the next day.
+
+## Pending
 
 - FR010 Form Validation Block submission unless all fields are populated.
 
@@ -73,6 +73,10 @@ App itself.
 - FR014 Entry Detail Modal Clicking a card opens a modal showing full entry (title, date, image, content). Control showing/hidding the preview modal, as well as its content, with state.
 
 - FR015 Static-Site Deployment to Render Build the app with Vite and deploy the static assets on Render.
+
+- Add your first journal welcome page
+- fix responsiveness of the cellphone view? (minimum sizes?)
+-
 
 # Learnings:
 
