@@ -46,6 +46,12 @@ const App = () => {
     setSelectedEntry(null);
   };
 
+  // handleDelete function to remove an entry and close the modal
+  const handleDelete = (entryToDelete) => {
+    removeEntry(entryToDelete);
+    closeEntryModal();
+  };
+
   // FOR FILTER: list of entries based on sort order
   const sortedEntries = [...entries].sort((a, b) => {
     // sort entries by date
@@ -80,6 +86,7 @@ const App = () => {
           <EntryDetailModal
             entryData={selectedEntry}
             onClose={closeEntryModal}
+            onDelete={handleDelete}
           />
         )}
       </main>

@@ -72,14 +72,18 @@ App itself.
 ### Jul. 07 Delivery Day
 
 - branch getEntryViewer
+
   - FR013 Card Layout: Show each entry as a card with preview image, date and title.
+
+- branch getEntryViewer02
+
   - FR014 Entry Detail Modal: Clicking a card opens a modal showing full entry (title, date, image, content). Control showing/hidding the preview modal, as well as its content, with state.
+  - FR015 Static-Site Deployment to Render Build the app with Vite and deploy the static assets on Render.
+
+- branch getEntryViewer03
+  - Delete required confirmation in a warning window.
 
 ## Pending
-
-- FR015 Static-Site Deployment to Render Build the app with Vite and deploy the static assets on Render.
-
-- Delete required confirmation in a warning window.
 
 - Add your first journal welcome page
 - fix responsiveness of the cellphone view? (minimum sizes?)

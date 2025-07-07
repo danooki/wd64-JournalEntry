@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FullImageModal from "./FullImageModal";
 
-const EntryDetailModal = ({ entryData, onClose }) => {
+const EntryDetailModal = ({ entryData, onClose, onDelete }) => {
   const [isFullImageOpen, setIsFullImageOpen] = useState(false);
 
   return (
@@ -36,8 +36,21 @@ const EntryDetailModal = ({ entryData, onClose }) => {
             <span className="badge badge-outline w-fit">{entryData.mood}</span>
 
             <div className="card-actions justify-end mt-6">
-              <button className="btn btn-sm btn-error" onClick={onClose}>
+              <button className="btn btn-error" onClick={onClose}>
                 Close
+              </button>
+              <button
+                className="btn btn-neutral btn-dash"
+                onClick={() => {
+                  const confirmed = window.confirm(
+                    "WARNING! Are you sure you want to delete this entry forever from your memories?"
+                  );
+                  if (confirmed) {
+                    onDelete(entryData); // esta función viene desde App y solo se encarga de ejecutar la lógica (sin lógica visual)
+                  }
+                }}
+              >
+                Delete
               </button>
             </div>
           </div>
