@@ -6,16 +6,16 @@
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import DiaryEntryList from "./components/DiaryEntryList";
-import FilterBar from "./components/FilterBar";
 import AddEntryModal from "./components/AddEntryModal";
 import { canSubmitNewEntry, getRemainingCooldown } from "./utils/entryCooldown"; // utility functions for cooldown logic
 import { useDiaryEntries } from "./utils/useDiaryEntries";
+import EntryDetailModal from "./components/EntryDetailModal";
 
 const App = () => {
   const { entries, addEntry, removeEntry } = useDiaryEntries(); // this was in App.jsx before, now in useDiaryEntries.js utility.
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal starts off closed
-
-  const [sortOrder, setSortOrder] = useState("newest"); // default sort order
+  const [sortOrder, setSortOrder] = useState("newest"); // FOR FILTER: default sort order
+  const [selectedEntry, setSelectedEntry] = useState(null); // For entry detail modal.
 
   // handleSubmit function to add a new entry
   // This function will be passed down to the DiaryEntryForm component
@@ -36,6 +36,22 @@ const App = () => {
     }
   };
 
+  // open modal on card click
+  const openEntryModal = (entry) => {
+    setSelectedEntry(entry);
+  };
+
+  // close modal
+  const closeEntryModal = () => {
+    setSelectedEntry(null);
+  };
+
+  // handleDelete function to remove an entry and close the modal
+  const handleDelete = (entryToDelete) => {
+    removeEntry(entryToDelete);
+    closeEntryModal();
+  };
+
   // FOR FILTER: list of entries based on sort order
   const sortedEntries = [...entries].sort((a, b) => {
     // sort entries by date
@@ -54,11 +70,23 @@ const App = () => {
         setSortOrder={setSortOrder}
       />
       <main className="container mx-auto p-4">
-        <DiaryEntryList entryData={sortedEntries} removeEntry={removeEntry} />
+        <DiaryEntryList
+          entryData={sortedEntries}
+          removeEntry={removeEntry}
+          onEntryClick={openEntryModal}
+        />
         {isModalOpen && (
           <AddEntryModal
             onClose={() => setIsModalOpen(false)}
             handleSubmit={handleSubmit}
+          />
+        )}
+
+        {selectedEntry && (
+          <EntryDetailModal
+            entryData={selectedEntry}
+            onClose={closeEntryModal}
+            onDelete={handleDelete}
           />
         )}
       </main>

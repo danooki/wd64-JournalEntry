@@ -32,7 +32,7 @@ const DiaryEntry = ({ entryData, onClick }) => {
   return (
     <div
       className="card card-compact bg-gray-800 shadow-sm mb-4 border border-gray-200 transition duration-200 transform hover:scale-105 hover:shadow-xl cursor-pointer"
-      onClick={onClick}
+      onClick={() => onClick(entryData)}
     >
       {entryData.imageUrl && (
         <figure className="max-h-40 overflow-hidden">
