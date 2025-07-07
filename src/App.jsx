@@ -1,18 +1,22 @@
 // App.jsx renders the Navbar, entry form, entry list here.
-// import needed components
+// import needed components + utils
 // set up empty state
 // add placeholder layout
 
 import { useState, useEffect } from "react";
+// COMPONENTS
 import Navbar from "./components/Navbar";
 import DiaryEntryList from "./components/DiaryEntryList";
 import AddEntryModal from "./components/AddEntryModal";
-import { canSubmitNewEntry, getRemainingCooldown } from "./utils/entryCooldown"; // utility functions for cooldown logic
-import { useDiaryEntries } from "./utils/useDiaryEntries";
 import EntryDetailModal from "./components/EntryDetailModal";
+//UTILS
+import { useDiaryEntries } from "./utils/useDiaryEntries";
+import { useEntrySubmission } from "./utils/useEntrySubmission";
+import { canSubmitNewEntry, getRemainingCooldown } from "./utils/entryCooldown"; // utility functions for cooldown logic
 
 const App = () => {
-  const { entries, addEntry, removeEntry } = useDiaryEntries(); // this was in App.jsx before, now in useDiaryEntries.js utility.
+  const { entries, addEntry, removeEntry, handleAddClick } =
+    useEntrySubmission();
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal starts off closed
   const [sortOrder, setSortOrder] = useState("newest"); // FOR FILTER: default sort order
   const [selectedEntry, setSelectedEntry] = useState(null); // For entry detail modal.
@@ -24,17 +28,7 @@ const App = () => {
     setIsModalOpen(false);
   };
 
-  // handleAddClick function to open the modal if cooldown allows
-  const handleAddClick = () => {
-    if (canSubmitNewEntry()) {
-      setIsModalOpen(true);
-    } else {
-      const hoursLeft = getRemainingCooldown().toFixed(1); // get remaining cooldown in hours
-      alert(
-        `⏳ You must wait ${hoursLeft} more hours before adding a new entry.`
-      );
-    }
-  };
+  // handleAddClick function to open the modal if cooldown allows is in useEntrySubmission.js
 
   // open modal on card click
   const openEntryModal = (entry) => {
