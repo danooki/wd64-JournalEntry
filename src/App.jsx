@@ -8,33 +8,20 @@ import Navbar from "./components/Navbar";
 import DiaryEntryList from "./components/DiaryEntryList";
 import FilterBar from "./components/FilterBar";
 import AddEntryModal from "./components/AddEntryModal";
-import { canSubmitNewEntry, getRemainingCooldown } from "./utils/entryCooldown";
+import { canSubmitNewEntry, getRemainingCooldown } from "./utils/entryCooldown"; // utility functions for cooldown logic
+import { useDiaryEntries } from "./utils/useDiaryEntries";
 
 const App = () => {
-  // useState to manage diary entries
-  const [entries, setEntries] = useState(() => {
-    const savedEntries = localStorage.getItem("diaryEntries");
-    return savedEntries ? JSON.parse(savedEntries) : [];
-  });
+  const { entries, addEntry, removeEntry } = useDiaryEntries(); // this was in App.jsx before, now in useDiaryEntries.js utility.
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal starts off closed
 
-  // Modal starts off closed
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // useEffect to save entries to localStorage whenever entries change
-  useEffect(() => {
-    localStorage.setItem("diaryEntries", JSON.stringify(entries));
-  }, [entries]);
-
-  const removeEntry = (index) => {
-    setEntries((prevEntries) => prevEntries.filter((_, i) => i !== index));
-  };
+  const [sortOrder, setSortOrder] = useState("newest"); // default sort order
 
   // handleSubmit function to add a new entry
   // This function will be passed down to the DiaryEntryForm component
   const handleSubmit = (newEntry) => {
-    setEntries((prev) => [...prev, newEntry]);
+    addEntry(newEntry);
     setIsModalOpen(false);
-    localStorage.setItem("lastEntryTime", Date.now()); // store submission time
   };
 
   // handleAddClick function to open the modal if cooldown allows
@@ -42,21 +29,32 @@ const App = () => {
     if (canSubmitNewEntry()) {
       setIsModalOpen(true);
     } else {
-      const hoursLeft = getRemainingCooldown().toFixed(1);
+      const hoursLeft = getRemainingCooldown().toFixed(1); // get remaining cooldown in hours
       alert(
         `⏳ You must wait ${hoursLeft} more hours before adding a new entry.`
       );
     }
   };
 
+  // FOR FILTER: list of entries based on sort order
+  const sortedEntries = [...entries].sort((a, b) => {
+    // sort entries by date
+    const dateA = new Date(a.date).getTime(); // convert date strings to timestamps
+    const dateB = new Date(b.date).getTime();
+    return sortOrder === "newest" ? dateB - dateA : dateA - dateB; // sort by newest or oldest
+  });
+
   // Main component handles NavBar + rendering DiaryEntryList and AddEntryModal
   return (
     <>
       {/* Navbar at the top of the page */}
-      <Navbar onAddClick={handleAddClick} />
+      <Navbar
+        onAddClick={handleAddClick}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
+      />
       <main className="container mx-auto p-4">
-        <FilterBar />
-        <DiaryEntryList entryData={entries} removeEntry={removeEntry} />
+        <DiaryEntryList entryData={sortedEntries} removeEntry={removeEntry} />
         {isModalOpen && (
           <AddEntryModal
             onClose={() => setIsModalOpen(false)}

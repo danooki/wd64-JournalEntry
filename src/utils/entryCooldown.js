@@ -3,7 +3,7 @@
 export const canSubmitNewEntry = (limitInHours = 4) => {
   // check if the user can submit a new entry based on the cooldown limit
   const last = localStorage.getItem("lastEntryTime"); // get the last entry time from localStorage
-  if (!last) return true;
+  if (!last) return true; // if no last entry time, allow submission.
 
   const diffInHours = (Date.now() - Number(last)) / (1000 * 60 * 60); // Convert milliseconds to hours
   // check if the difference is greater than or equal to the limit
