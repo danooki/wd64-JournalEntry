@@ -7,8 +7,8 @@ const FilterBar = ({ sortOrder, setSortOrder }) => {
         value={sortOrder}
         onChange={(e) => setSortOrder(e.target.value)}
       >
-        <option value="oldest">Oldest First</option>
         <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
       </select>
     </div>
   );
